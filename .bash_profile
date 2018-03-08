@@ -17,6 +17,7 @@ if [ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ]; then
 
   __git_complete ga _git_add
   __git_complete gap _git_add
+  __git_complete gau _git_add
   __git_complete gbr _git_branch
   __git_complete gco _git_checkout
   __git_complete gci _git_commit

@@ -24,6 +24,7 @@ alias gsr='gem search --remote'
 # Git
 alias ga='git add'
 alias gap='git add --patch'
+alias gau='git add --update'
 alias gbr='git branch'
 alias gco='git checkout'
 alias gci='git commit -v'
