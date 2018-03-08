@@ -1,2 +1,4 @@
+#!/usr/bin/env bash
+
 # A simple yellow arrow
 export PS1='\[\033[33m\]\W → \[\033[0m\]'
