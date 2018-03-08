@@ -1,106 +1,109 @@
-" Use the Solarized Dark theme
-set background=dark
-colorscheme solarized
-let g:solarized_termtrans=1
-
-" Make Vim more useful
 set nocompatible
-" Use the OS clipboard by default (on versions compiled with `+clipboard`)
-set clipboard=unnamed
-" Enhance command-line completion
-set wildmenu
-" Allow cursor keys in insert mode
-set esckeys
-" Allow backspace in insert mode
-set backspace=indent,eol,start
-" Optimize for fast terminal connections
-set ttyfast
-" Add the g flag to search/replace by default
-set gdefault
-" Use UTF-8 without BOM
-set encoding=utf-8 nobomb
-" Change mapleader
+set termguicolors
+
 let mapleader=","
-" Don’t add empty newlines at the end of files
-set binary
-set noeol
-" Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
-if exists("&undodir")
-	set undodir=~/.vim/undo
-endif
 
-" Don’t create backups when editing files in certain directories
-set backupskip=/tmp/*,/private/tmp/*
+source ~/.vim/bundle.vim
+source ~/.vim/colors.vim
 
-" Respect modeline in files
-set modeline
-set modelines=4
-" Enable per-directory .vimrc files and disable unsafe commands in them
-set exrc
-set secure
-" Enable line numbers
-set number
-" Enable syntax highlighting
-syntax on
-" Highlight current line
-set cursorline
-" Make tabs as wide as two spaces
-set tabstop=2
-" Show “invisible” characters
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-set list
-" Highlight searches
-set hlsearch
-" Ignore case of searches
-set ignorecase
-" Highlight dynamically as pattern is typed
-set incsearch
-" Always show status line
-set laststatus=2
-" Enable mouse in all modes
-set mouse=a
-" Disable error bells
-set noerrorbells
-" Don’t reset cursor to start of line when moving around.
-set nostartofline
-" Show the cursor position
+" Enable backgrounding buffers
+set hidden
+
+" Remember more commands and search history
+set history=1000
+
+" Make tab completion for files/buffers act like Bash
+set wildmenu
+
+" Keep more context when scrolling off the end of a buffer
+set scrolloff=2
+
+" Enable backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" Disable backups, on-write backups and swapfiles
+set nobackup
+set nowb
+set noswapfile
+
+" Show cursor position
 set ruler
-" Don’t show the intro message when starting Vim
-set shortmess=atI
-" Show the current mode
-set showmode
-" Show the filename in the window titlebar
-set title
-" Show the (partial) command as it’s being typed
+
+" Show command information
 set showcmd
-" Use relative line numbers
-if exists("&relativenumber")
-	set relativenumber
-	au BufReadPost * set relativenumber
-endif
-" Start scrolling three lines before the horizontal window border
-set scrolloff=3
 
-" Strip trailing whitespace (,ss)
-function! StripWhitespace()
-	let save_cursor = getpos(".")
-	let old_query = getreg('/')
-	:%s/\s\+$//e
-	call setpos('.', save_cursor)
-	call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
-" Save a file as root (,W)
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
+" Mark end of match with $ for clarity
+set cpoptions=Bces$
 
-" Automatic commands
-if has("autocmd")
-	" Enable file type detection
-	filetype on
-	" Treat .json files as .js
-	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
-	" Treat .md files as Markdown
-	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
-endif
+" Show line numbers
+set number
+
+" Set 2-space soft tabs
+set expandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+
+" Highlight column 80
+set colorcolumn=80
+
+" Copy indent from current line
+set autoindent
+
+" Briefly jump to matching bracket
+set showmatch
+
+" Show highlights for matches as they occur
+set hls
+set incsearch
+
+" Kill highlight after search
+nnoremap <CR> :noh<CR>
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+
+" Complete to longest common string and list all matches
+set wildmode=longest,list
+
+" Don't wrap
+set nowrap
+
+" Mark unwanted spaces
+set list
+set listchars=tab:▸\
+set listchars+=trail:·
+set listchars+=extends:❯
+set listchars+=precedes:❮
+
+" Highlight current line in insert mode
+autocmd InsertEnter * set cursorline
+autocmd InsertLeave * set nocursorline
+
+" Jump to first open window that contains buffer
+set switchbuf=useopen
+
+" Source .vimrc on save
+autocmd! bufwritepost ~/.vimrc source ~/.vimrc
+
+" Make ctrl-p search by filename only (not path)
+let g:ctrlp_by_filename=1
+
+" Make ctrl-p find hidden files
+let g:ctrlp_show_hidden=1
+let g:ctrlp_custom_ignore = {
+\   'dir': '\v\/(\.git|\.bundle|vendor\/bundle|tmp|public\/system|coverage|node_modules|deps|_build)$',
+\   'file': '\v\.(gitkeep|jpe?g|gif|png|ico|log|sqlite3|DS_Store)$'
+\ }
+
+" Toggle the directory structure
+map <C-n> :NERDTreeToggle<cr>
+
+" Close NERDTree when a file is opened
+let NERDTreeQuitOnOpen = 1
+
+" Let ctrlp close NERDTree
+let g:ctrlp_dont_split = 'nerdtree'
+
+let g:VimuxRunnerType='pane'
+let g:VimuxUseNearest=1
+
+let g:use_vimux=1
