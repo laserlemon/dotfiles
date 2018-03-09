@@ -6,6 +6,10 @@ let mapleader=","
 source ~/.vim/bundle.vim
 source ~/.vim/colors.vim
 
+" Use jk for escape
+inoremap jk <esc>
+inoremap <esc> <nop>
+
 " Enable backgrounding buffers
 set hidden
 
