@@ -1,1 +1,2 @@
-export EDITOR=code
+export EDITOR="code --wait"
+export VISUAL="$EDITOR"
