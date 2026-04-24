@@ -24,8 +24,15 @@ chmod +x "$DOTFILES_DIR/bin/"* 2>/dev/null || true
 PATHLINE="export PATH=\"$DOTFILES_DIR/bin:\$PATH\""
 if ! grep -qF "$DOTFILES_DIR/bin" "$HOME/.bashrc" 2>/dev/null; then
   echo "$PATHLINE" >> "$HOME/.bashrc"
-  echo "  ✓ Added bin/ to PATH"
+  echo "  ✓ Added bin/ to PATH in .bashrc"
 fi
+
+# Symlink bin/ scripts to /usr/local/bin for non-interactive shells (e.g. Copilot)
+for script in "$DOTFILES_DIR/bin/"*; do
+  name=$(basename "$script")
+  ln -sf "$script" "/usr/local/bin/$name" 2>/dev/null || true
+  echo "  ✓ /usr/local/bin/$name"
+done
 
 # VS Code custom instructions (prompts directory)
 PROMPTS_DIR="$HOME/.config/Code/User/prompts"
