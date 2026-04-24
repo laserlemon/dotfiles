@@ -27,11 +27,12 @@ if ! grep -qF "$DOTFILES_DIR/bin" "$HOME/.bashrc" 2>/dev/null; then
   echo "  ✓ Added bin/ to PATH in .bashrc"
 fi
 
-# Symlink bin/ scripts to /usr/local/bin for non-interactive shells (e.g. Copilot)
+# Symlink bin/ scripts to ~/.local/bin for non-interactive shells (e.g. Copilot)
+mkdir -p "$HOME/.local/bin"
 for script in "$DOTFILES_DIR/bin/"*; do
   name=$(basename "$script")
-  ln -sf "$script" "/usr/local/bin/$name" 2>/dev/null || true
-  echo "  ✓ /usr/local/bin/$name"
+  ln -sf "$script" "$HOME/.local/bin/$name"
+  echo "  ✓ ~/.local/bin/$name"
 done
 
 # VS Code custom instructions (prompts directory)
