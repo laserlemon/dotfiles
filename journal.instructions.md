@@ -54,6 +54,10 @@ journal push <project-slug> <<'ENTRY'
 All times are Detroit time (America/Detroit). Use 12-hour format, lowercase
 am/pm, no leading zeros. Example: `## 🦊 1:30 pm - 2:45 pm`
 
+If running in a GitHub Codespace, append the codespace name to the header.
+Example: `## 🦊 1:30 pm - 2:45 pm · curly-space-disco`
+The codespace name is available in the `CODESPACE_NAME` environment variable.
+
 ### What happened
 
 [Prose describing work since last entry or session start. Use full Markdown —
