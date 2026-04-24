@@ -77,6 +77,10 @@ appropriate. There is no required template.
 
 ### Rules
 
+- Only use h3 (`###`) or higher (`####`, `#####`) headings in entries.
+  Never use h1 or h2 — those are reserved for the entry heading.
+- Do not include Markdown separators (`---`) in entries — the CLI appends
+  those automatically.
 - Be specific: "discussed JWT vs session tokens for internal API; leaning JWT"
   not "discussed auth options."
 - Capture design conversations and reasoning, not just code changes.
