@@ -1,0 +1,134 @@
+#!/usr/bin/env python3
+"""
+journal — CLI for laserlemon/journal
+
+Usage:
+  journal list [--verbose]    List active projects
+  journal push <slug>         Append entry from stdin
+
+Environment:
+  JOURNAL_TOKEN — GitHub PAT with contents:write on laserlemon/journal
+"""
+
+import base64
+import json
+import os
+import sys
+import urllib.request
+import urllib.error
+from datetime import datetime, timezone
+
+REPO = "laserlemon/journal"
+API = "https://api.github.com"
+
+
+def die(msg):
+    print(f"journal: {msg}", file=sys.stderr)
+    sys.exit(1)
+
+
+def gh_api(method, path, body=None):
+    token = os.environ.get("JOURNAL_TOKEN")
+    if not token:
+        die("JOURNAL_TOKEN not set")
+
+    url = f"{API}/repos/{REPO}/{path}"
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github+json",
+    }
+    data = None
+    if body is not None:
+        headers["Content-Type"] = "application/json"
+        data = json.dumps(body).encode()
+
+    req = urllib.request.Request(url, data=data, headers=headers, method=method)
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read())
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return None
+        die(f"GitHub API error: {e.code} {e.read().decode()}")
+
+
+def cmd_list(verbose=False):
+    resp = gh_api("GET", "contents/projects.yml")
+    if not resp:
+        die("projects.yml not found")
+
+    content = base64.b64decode(resp["content"]).decode()
+
+    # Simple YAML parsing (no external deps)
+    projects = []
+    current = {}
+    for line in content.splitlines():
+        if line.strip().startswith("- slug:"):
+            if current:
+                projects.append(current)
+            current = {"slug": line.split(":", 1)[1].strip()}
+        elif ":" in line and current:
+            key, val = line.strip().split(":", 1)
+            current[key.strip()] = val.strip()
+    if current:
+        projects.append(current)
+
+    for p in projects:
+        if p.get("status") != "active":
+            continue
+        if verbose:
+            print(f"{p['slug']}\t{p.get('description', '')}")
+        else:
+            print(p["slug"])
+
+
+def cmd_push(slug):
+    entry = sys.stdin.read().strip()
+    if not entry:
+        die("no entry on stdin")
+
+    now = datetime.now(timezone.utc)
+    today = now.strftime("%Y-%m-%d")
+    path = f"entries/{slug}/{today}.md"
+
+    # Check if file exists
+    existing = gh_api("GET", f"contents/{path}")
+
+    if existing and "content" in existing:
+        current = base64.b64decode(existing["content"]).decode()
+        combined = f"{current}\n{entry}\n\n---\n\n"
+        sha = existing["sha"]
+    else:
+        combined = f"{entry}\n\n---\n\n"
+        sha = None
+
+    encoded = base64.b64encode(combined.encode()).decode()
+    hour = now.strftime("%H:%M")
+    commit_msg = f"journal: {slug} {today} {hour}"
+
+    body = {"message": commit_msg, "content": encoded}
+    if sha:
+        body["sha"] = sha
+
+    gh_api("PUT", f"contents/{path}", body)
+    print(f"✓ {path}")
+
+
+def main():
+    args = sys.argv[1:]
+    if not args:
+        die("usage: journal {list|push} ...")
+
+    cmd = args[0]
+    if cmd == "list":
+        cmd_list(verbose="--verbose" in args)
+    elif cmd == "push":
+        if len(args) < 2:
+            die("usage: journal push <project-slug>")
+        cmd_push(args[1])
+    else:
+        die(f"unknown command: {cmd}")
+
+
+if __name__ == "__main__":
+    main()
