@@ -11,9 +11,11 @@ what happens across coding sessions for visibility and continuity.
 
 ### Agent identity
 
-Generate a short stable ID for your session (e.g., `copilot-a8f3`) derived
-from the workspace path or session identity. Use this in entry headers.
-Keep it consistent across entries within the same session.
+Pick a random emoji from this set to use as your session identity:
+🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐻‍❄️
+
+Use it in entry headers (e.g., `## 🦊 14:00–15:12 UTC`). Pick once per
+session and keep it consistent across entries.
 
 ### When to journal
 
@@ -40,7 +42,7 @@ Pipe a Markdown entry to the journal command:
 
 ```bash
 journal push <project-slug> <<'ENTRY'
-## <start-time>–<now> UTC · <agent-id>
+## <emoji> <start-time>–<now> UTC
 
 ### What happened
 
