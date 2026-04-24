@@ -49,40 +49,34 @@ Pipe a Markdown entry to the journal command:
 
 ```bash
 journal push <project-slug> <<'ENTRY'
-## <emoji> H:MM am - H:MM pm
-
-All times are Detroit time (America/Detroit). Use 12-hour format, lowercase
-am/pm, no leading zeros. Example: `## 🦊 1:30 pm - 2:45 pm`
-
-If running in a GitHub Codespace, append the codespace name to the header.
-Example: `## 🦊 1:30 pm - 2:45 pm · curly-space-disco`
-The codespace name is available in the `CODESPACE_NAME` environment variable.
-
-### What happened
-
-[Prose describing work since last entry or session start. Use full Markdown —
-paragraphs, inline code, links, blockquotes, tables, code blocks.]
-
-### Decisions
-
-[Each decision as a **bold heading** with rationale. Or "No decisions made."]
-
-### Output
-
-[Commits, files changed, docs. Include SHAs when available.
-Or "No code output — ideation session."]
-
-### Open threads
-
-[Unresolved questions and next steps. Restate carried-over items so each
-entry stands alone.]
+<your entry here>
 ENTRY
 ```
 
+### Entry format
+
+The entry heading is the only prescribed format:
+
+```
+## <emoji> H:MM am - H:MM pm
+```
+
+- All times are Detroit time (America/Detroit).
+- Use 12-hour format, lowercase am/pm, no leading zeros.
+- Example: `## 🦊 1:30 pm - 2:45 pm`
+- If running in a GitHub Codespace, append the codespace name:
+  `## 🦊 1:30 pm - 2:45 pm · curly-space-disco`
+  (available via the `CODESPACE_NAME` environment variable)
+
+**The body below the heading is freeform.** Structure it however best
+captures the session's context. The goal is to preserve as much context
+from the conversation as possible, as concisely as possible. Decisions,
+reasoning, code changes, open questions — whatever matters. Use the full
+range of Markdown (prose, bullets, tables, code blocks, links) as
+appropriate. There is no required template.
+
 ### Rules
 
-- **Write prose, not bullet lists** as top-level structure. Use bullets/tables
-  within sections when appropriate.
 - Be specific: "discussed JWT vs session tokens for internal API; leaning JWT"
   not "discussed auth options."
 - Capture design conversations and reasoning, not just code changes.
