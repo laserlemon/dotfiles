@@ -33,9 +33,11 @@ across entries.
 
 On the first message of each session:
 
-1. Run `journal list` to see active project slugs.
-2. If the workspace/repo clearly maps to one, suggest it.
-3. Ask: *"Which project should I journal under? (or type a new slug, or 'skip')"*
+1. Run `journal list` to get active project slugs.
+2. Present them as a numbered multiple-choice list, sorted alphabetically,
+   **except** put your best guess for the current workspace/repo at the top.
+3. Include a final option for "skip" (no journaling this session) and
+   mention they can type a new slug not on the list.
 4. If the user says **"skip"** or **"none"**, stop journaling for this session.
 5. Any slug works — it doesn't need to be in the list.
 6. Remember the choice for the rest of the session.
