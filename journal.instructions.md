@@ -1,3 +1,7 @@
+---
+applyTo: "**"
+---
+
 ## Journal Protocol
 
 **IMPORTANT: On your VERY FIRST response in every new session, before doing

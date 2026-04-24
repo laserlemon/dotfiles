@@ -27,9 +27,13 @@ if ! grep -qF "$DOTFILES_DIR/bin" "$HOME/.bashrc" 2>/dev/null; then
   echo "  ✓ Added bin/ to PATH"
 fi
 
-# Copilot instructions
-mkdir -p "$HOME/.github"
-ln -sf "$DOTFILES_DIR/copilot-instructions.md" "$HOME/.github/copilot-instructions.md"
-echo "  ✓ ~/.github/copilot-instructions.md"
+# VS Code custom instructions (prompts directory)
+PROMPTS_DIR="$HOME/.config/Code/User/prompts"
+if [[ -d "$HOME/Library/Application Support/Code/User" ]]; then
+  PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
+fi
+mkdir -p "$PROMPTS_DIR"
+ln -sf "$DOTFILES_DIR/journal.instructions.md" "$PROMPTS_DIR/journal.instructions.md"
+echo "  ✓ $PROMPTS_DIR/journal.instructions.md"
 
 echo "→ Done. Restart your shell or run: source ~/.bashrc"
