@@ -14,8 +14,8 @@ what happens across coding sessions for visibility and continuity.
 Pick a random emoji from this set to use as your session identity:
 🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐻‍❄️
 
-Use it in entry headers (e.g., `## 🦊 14:00–15:12 UTC`). Pick once per
-session and keep it consistent across entries.
+Use it in entry headers. Pick once per session and keep it consistent
+across entries.
 
 ### When to journal
 
@@ -42,7 +42,10 @@ Pipe a Markdown entry to the journal command:
 
 ```bash
 journal push <project-slug> <<'ENTRY'
-## <emoji> <start-time>–<now> UTC
+## <emoji> H:MM am - H:MM pm
+
+All times are Detroit time (America/Detroit). Use 12-hour format, lowercase
+am/pm, no leading zeros. Example: `## 🦊 1:30 pm - 2:45 pm`
 
 ### What happened
 
