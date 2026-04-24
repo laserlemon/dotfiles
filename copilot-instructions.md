@@ -1,5 +1,11 @@
 ## Journal Protocol
 
+**IMPORTANT: On your VERY FIRST response in every new session, before doing
+anything else, run `journal list` and ask the user which project to journal
+under.** Do not wait to be asked. Do not skip this step. If the workspace/repo
+clearly maps to a listed project, suggest it. If the user says "skip" or
+"none", stop journaling for this session — but you must ask first.
+
 You maintain a work journal via the `journal` CLI command. This helps track
 what happens across coding sessions for visibility and continuity.
 
@@ -11,6 +17,7 @@ Keep it consistent across entries within the same session.
 
 ### When to journal
 
+- **First response of every session** — set up journaling (see above).
 - On the **first user message of each clock hour** (e.g., first message after
   2:00 PM, first after 3:00 PM). Track the last journaled hour internally.
 - When the user says **"journal"** or **"log this"**.
@@ -18,7 +25,7 @@ Keep it consistent across entries within the same session.
 
 ### Choosing a project
 
-On the first journal entry of each session:
+On the first message of each session:
 
 1. Run `journal list` to see active project slugs.
 2. If the workspace/repo clearly maps to one, suggest it.
