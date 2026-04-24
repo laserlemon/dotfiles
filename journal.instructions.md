@@ -31,6 +31,15 @@ across entries.
   Do not wait for the next hour.
 - At **end of session** if there's unjournaled work.
 
+### Backfilling historical sessions
+
+If the user asks you to journal a session that predates journaling (i.e.,
+the conversation already has history but no journal entries were made),
+review the full conversation and create entries **bucketed by calendar day**
+(Detroit time). Use one `journal push` per day, with the heading spanning
+the first and last message timestamps of that day. This captures historical
+work that would otherwise be lost.
+
 ### Choosing a project
 
 On the first message of each session:
