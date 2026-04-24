@@ -34,13 +34,12 @@ across entries.
 On the first message of each session:
 
 1. Run `journal list` to get active project slugs.
-2. Present them as a numbered multiple-choice list, sorted alphabetically,
-   **except** put your best guess for the current workspace/repo at the top.
-3. Include a final option for "skip" (no journaling this session) and
-   mention they can type a new slug not on the list.
-4. If the user says **"skip"** or **"none"**, stop journaling for this session.
-5. Any slug works — it doesn't need to be in the list.
-6. Remember the choice for the rest of the session.
+2. Use the `vscode/askQuestion` tool to present them as a multiple-choice
+   question. Sort alphabetically, but put your best guess for the current
+   workspace/repo at the top. Include a "skip" option at the end.
+3. If the user says **"skip"** or **"none"**, stop journaling for this session.
+4. Any slug works — they can also type a new slug not on the list.
+5. Remember the choice for the rest of the session.
 
 ### How to journal
 
