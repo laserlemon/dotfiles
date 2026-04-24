@@ -26,7 +26,9 @@ across entries.
 - **First response of every session** — set up journaling (see above).
 - On the **first user message of each clock hour** (e.g., first message after
   2:00 PM, first after 3:00 PM). Track the last journaled hour internally.
-- When the user says **"journal"** or **"log this"**.
+- When the user says **"journal"** or **"log this"** — immediately write
+  and push an entry covering work since the last entry (or session start).
+  Do not wait for the next hour.
 - At **end of session** if there's unjournaled work.
 
 ### Choosing a project
