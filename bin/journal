@@ -7,7 +7,7 @@ Usage:
   journal push <slug>         Append entry from stdin
 
 Environment:
-  JOURNAL_TOKEN — GitHub PAT with contents:write on laserlemon/journal
+  LASERLEMON_JOURNAL_TOKEN — GitHub PAT with contents:write on laserlemon/journal
 """
 
 import base64
@@ -28,9 +28,9 @@ def die(msg):
 
 
 def gh_api(method, path, body=None):
-    token = os.environ.get("JOURNAL_TOKEN")
+    token = os.environ.get("LASERLEMON_JOURNAL_TOKEN")
     if not token:
-        die("JOURNAL_TOKEN not set")
+        die("LASERLEMON_JOURNAL_TOKEN not set")
 
     url = f"{API}/repos/{REPO}/{path}"
     headers = {
