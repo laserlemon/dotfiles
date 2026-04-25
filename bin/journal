@@ -16,7 +16,8 @@ import os
 import sys
 import urllib.request
 import urllib.error
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+import zoneinfo
 
 REPO = "laserlemon/journal"
 API = "https://api.github.com"
@@ -87,7 +88,7 @@ def cmd_push(slug):
     if not entry:
         die("no entry on stdin")
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(zoneinfo.ZoneInfo("America/Detroit"))
     today = now.strftime("%Y-%m-%d")
     path = f"entries/{slug}/{today}.md"
 
