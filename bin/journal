@@ -108,6 +108,7 @@ def cmd_push(slug, date_str=None):
         sha = None
 
     encoded = base64.b64encode(combined.encode()).decode()
+    now = datetime.now(zoneinfo.ZoneInfo("America/Detroit"))
     hour = now.strftime("%H:%M")
     commit_msg = f"journal: {slug} {today} {hour}"
 
