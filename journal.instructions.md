@@ -57,10 +57,13 @@ On the first message of each session:
 Pipe a Markdown entry to the journal command:
 
 ```bash
-journal push <project-slug> <<'ENTRY'
+journal push <project-slug> [--date YYYY-MM-DD] <<'ENTRY'
 <your entry here>
 ENTRY
 ```
+
+The `--date` flag is optional and defaults to today (Detroit time). Use it
+when backfilling historical sessions to place entries on the correct date.
 
 ### Entry format
 

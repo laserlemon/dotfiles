@@ -83,13 +83,17 @@ def cmd_list(verbose=False):
             print(p["slug"])
 
 
-def cmd_push(slug):
+def cmd_push(slug, date_str=None):
     entry = sys.stdin.read().strip()
     if not entry:
         die("no entry on stdin")
 
-    now = datetime.now(zoneinfo.ZoneInfo("America/Detroit"))
-    today = now.strftime("%Y-%m-%d")
+    if date_str:
+        today = date_str
+    else:
+        now = datetime.now(zoneinfo.ZoneInfo("America/Detroit"))
+        today = now.strftime("%Y-%m-%d")
+
     path = f"entries/{slug}/{today}.md"
 
     # Check if file exists
@@ -125,8 +129,16 @@ def main():
         cmd_list(verbose="--verbose" in args)
     elif cmd == "push":
         if len(args) < 2:
-            die("usage: journal push <project-slug>")
-        cmd_push(args[1])
+            die("usage: journal push <project-slug> [--date YYYY-MM-DD]")
+        slug = args[1]
+        date_str = None
+        if "--date" in args:
+            idx = args.index("--date")
+            if idx + 1 < len(args):
+                date_str = args[idx + 1]
+            else:
+                die("--date requires a value (YYYY-MM-DD)")
+        cmd_push(slug, date_str=date_str)
     else:
         die(f"unknown command: {cmd}")
 
