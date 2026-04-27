@@ -5,6 +5,7 @@ journal — CLI for laserlemon/journal
 Usage:
   journal list [--verbose]    List active projects
   journal push <slug>         Append entry from stdin
+  journal projects            Alias for 'journal list'
 
 Environment:
   LASERLEMON_JOURNAL_TOKEN — GitHub PAT with contents:write on laserlemon/journal
@@ -17,10 +18,34 @@ import sys
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone, timedelta
-import zoneinfo
+
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    ZoneInfo = None
 
 REPO = "laserlemon/journal"
 API = "https://api.github.com"
+
+
+def _now_detroit():
+    """Get current time in America/Detroit, with or without zoneinfo."""
+    if ZoneInfo is not None:
+        return datetime.now(ZoneInfo("America/Detroit"))
+
+    utc_now = datetime.now(timezone.utc)
+    year = utc_now.year
+    # DST start: 2nd Sunday of March at 2am EST (7am UTC)
+    mar1 = datetime(year, 3, 1, tzinfo=timezone.utc)
+    dst_start = mar1 + timedelta(days=(6 - mar1.weekday()) % 7 + 7, hours=7)
+    # DST end: 1st Sunday of November at 2am EDT (6am UTC)
+    nov1 = datetime(year, 11, 1, tzinfo=timezone.utc)
+    dst_end = nov1 + timedelta(days=(6 - nov1.weekday()) % 7, hours=6)
+
+    if dst_start <= utc_now < dst_end:
+        return utc_now + timedelta(hours=-4)  # EDT
+    else:
+        return utc_now + timedelta(hours=-5)  # EST
 
 
 def die(msg):
@@ -91,7 +116,7 @@ def cmd_push(slug, date_str=None):
     if date_str:
         today = date_str
     else:
-        now = datetime.now(zoneinfo.ZoneInfo("America/Detroit"))
+        now = _now_detroit()
         today = now.strftime("%Y-%m-%d")
 
     path = f"entries/{slug}/{today}.md"
@@ -108,7 +133,7 @@ def cmd_push(slug, date_str=None):
         sha = None
 
     encoded = base64.b64encode(combined.encode()).decode()
-    now = datetime.now(zoneinfo.ZoneInfo("America/Detroit"))
+    now = _now_detroit()
     hour = now.strftime("%H:%M")
     commit_msg = f"journal: {slug} {today} {hour}"
 
@@ -126,7 +151,7 @@ def main():
         die("usage: journal {list|push} ...")
 
     cmd = args[0]
-    if cmd == "list":
+    if cmd in ("list", "projects"):
         cmd_list(verbose="--verbose" in args)
     elif cmd == "push":
         if len(args) < 2:
