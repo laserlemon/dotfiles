@@ -5,7 +5,7 @@ applyTo: "**"
 ## Journal Protocol
 
 **IMPORTANT: On your VERY FIRST response in every new session, before doing
-anything else, run `journal list` and ask the user which project to journal
+anything else, run `journal projects` and ask the user which project to journal
 under.** Do not wait to be asked. Do not skip this step. If the workspace/repo
 clearly maps to a listed project, suggest it. If the user says "skip" or
 "none", stop journaling for this session — but you must ask first.
@@ -44,7 +44,7 @@ work that would otherwise be lost.
 
 On the first message of each session:
 
-1. Run `journal list` to get active project slugs.
+1. Run `journal projects` to get active project slugs.
 2. Use the `vscode/askQuestion` tool to present them as a multiple-choice
    question. Sort alphabetically, but put your best guess for the current
    workspace/repo at the top. Include a "skip" option at the end.
