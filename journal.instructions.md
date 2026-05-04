@@ -34,12 +34,15 @@ Even if the work is still ongoing, even if no code changed, and even if the user
 
 ### Backfilling historical sessions
 
-If the user asks you to journal a session that predates journaling (i.e.,
-the conversation already has history but no journal entries were made),
-review the full conversation and create entries **bucketed by calendar day**
-(Detroit time). Use one `journal push` per day, with the heading spanning
-the first and last message timestamps of that day. This captures historical
-work that would otherwise be lost.
+If the user explicitly asks you to journal a project/session and there is
+clearly unjournaled work spanning prior Detroit calendar days, review the
+full available conversation/work and create entries **bucketed by calendar
+day**. Use one `journal push` per day, oldest first, so prior-day work lands
+in the correct daily files instead of being collapsed into today.
+
+This rule applies both to sessions that predate journaling and to later
+catch-up requests where some work from prior day(s) never got journaled.
+Use `--date YYYY-MM-DD` whenever you need to place an entry on a prior day.
 
 ### Choosing a project
 
@@ -64,7 +67,8 @@ ENTRY
 ```
 
 The `--date` flag is optional and defaults to today (Detroit time). Use it
-when backfilling historical sessions to place entries on the correct date.
+when backfilling historical sessions or prior-day catch-up work to place
+entries on the correct date.
 
 ### Entry format
 
@@ -98,6 +102,8 @@ appropriate. There is no required template.
   not "discussed auth options."
 - Capture design conversations and reasoning, not just code changes.
 - Each entry should be understandable in isolation.
+- If a catch-up spans multiple Detroit dates, write multiple entries and push
+  them separately with `--date`, oldest first.
 - Don't skip journaling because "nothing happened" — conversation is work.
 - If the command fails, save the entry to `.journal-pending.md` locally
   and tell the user.
