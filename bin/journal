@@ -3,9 +3,10 @@
 journal — CLI for laserlemon/journal
 
 Usage:
-  journal list [--verbose]    List active projects
-  journal push <slug>         Append entry from stdin
-  journal projects            Alias for 'journal list'
+  journal list [--verbose]           List active projects
+  journal push <slug> [--date DATE]  Append entry from stdin
+  journal push --date DATE <slug>    Append dated backfill entry from stdin
+  journal projects                   Alias for 'journal list'
 
 Environment:
   LASERLEMON_JOURNAL_TOKEN — GitHub PAT with contents:write on laserlemon/journal
@@ -154,16 +155,35 @@ def main():
     if cmd in ("list", "projects"):
         cmd_list(verbose="--verbose" in args)
     elif cmd == "push":
-        if len(args) < 2:
+        push_args = args[1:]
+        if not push_args:
             die("usage: journal push <project-slug> [--date YYYY-MM-DD]")
-        slug = args[1]
+
+        slug = None
         date_str = None
-        if "--date" in args:
-            idx = args.index("--date")
-            if idx + 1 < len(args):
-                date_str = args[idx + 1]
+        i = 0
+        while i < len(push_args):
+            arg = push_args[i]
+            if arg == "--date":
+                if i + 1 >= len(push_args):
+                    die("--date requires a value (YYYY-MM-DD)")
+                date_str = push_args[i + 1]
+                i += 2
+                continue
+            if arg.startswith("--date="):
+                date_str = arg.split("=", 1)[1]
+                i += 1
+                continue
+            if arg.startswith("--"):
+                die(f"unknown option: {arg}")
+            if slug is None:
+                slug = arg
             else:
-                die("--date requires a value (YYYY-MM-DD)")
+                die("usage: journal push <project-slug> [--date YYYY-MM-DD]")
+            i += 1
+
+        if slug is None:
+            die("usage: journal push <project-slug> [--date YYYY-MM-DD]")
         cmd_push(slug, date_str=date_str)
     else:
         die(f"unknown command: {cmd}")
