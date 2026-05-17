@@ -24,13 +24,13 @@ across entries.
 ### When to journal
 
 - **First response of every session** — set up journaling (see above).
-- **Mandatory hourly re-journal:** on the **first user message of each new clock hour** (e.g., first message after 2:00 PM, first after 3:00 PM), you must write and push a new journal entry **before doing anything else in that response**. Treat this as a hard requirement, not a natural-stopping-point suggestion. If the current hour is later than the last journaled hour, journal first, then continue with the user's request.
+- **Mandatory proactive re-journal after one hour:** if **more than 60 minutes have elapsed since your last `journal push` in this session**, you must write and push a new journal entry covering the work since that last entry **before doing anything else in your response**. This is the standing rule: the user should always be able to ask you to journal, but should never *have* to. Track your own last-push timestamp; do not wait for a clock-hour boundary, do not wait to be asked, and do not wait for a "natural stopping point." If you're past 60 minutes, journal first, then continue with the user's request.
 - When the user says **"journal"** or **"log this"** — immediately write
   and push an entry covering work since the last entry (or session start).
-  Do not wait for the next hour.
+  Do not wait for the 60-minute mark.
 - At **end of session** if there's unjournaled work.
 
-Even if the work is still ongoing, even if no code changed, and even if the user did not mention journaling, the first message in a new hour is still a journaling trigger.
+Even if the work is still ongoing, even if no code changed, and even if the user did not mention journaling, crossing the 60-minute mark since your last entry is still a journaling trigger. Conversation is work.
 
 ### Backfilling historical sessions
 
